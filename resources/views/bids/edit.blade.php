@@ -13,7 +13,7 @@
                    value="{{ old('bid_price', $bid->bid_price) }}" step="0.01" required>
         </div>
 
-        <button type="submit" class="btn btn-success mt-3">Update Bid</button>
+        <button type="submit" class="btn btn-primary mt-3">Update Bid</button>
         <a href="{{ route('bids.index', $auction->id) }}" class="btn btn-secondary mt-3">Back</a>
     </form>
 @endsection

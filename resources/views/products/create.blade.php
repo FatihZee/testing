@@ -47,6 +47,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Add Product</button>
+            <a href="javascript:history.back()" class="btn btn-secondary ">Back</a>
         </form>
     </div>
 @endsection

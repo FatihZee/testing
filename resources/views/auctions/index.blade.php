@@ -6,13 +6,13 @@
 
         <!-- Button to Create Auction (Only for Admin) -->
         @if (auth()->user()->role === 'admin')
-            <a href="{{ route('auctions.create') }}" class="btn btn-success mb-3">Create Auction</a>
+            <a href="{{ route('auctions.create') }}" class="btn btn-primary mb-3">Create Auction</a>
         @endif
 
         <!-- Auction Table -->
         <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-dark">
+            <table class="table table-bordered ">
+                <thead class="table-primary">
                     <tr>
                         <th>ID</th>
                         <th>Image</th>

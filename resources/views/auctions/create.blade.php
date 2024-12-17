@@ -49,8 +49,9 @@
             </div>
 
             <!-- Tombol Submit -->
-            <div class="text-end">
+            <div class="text-early">
                 <button type="submit" class="btn btn-primary">Create Auction</button>
+                <a href="javascript:history.back()" class="btn btn-secondary ">Back</a>
             </div>
         </form>
     </div>

@@ -45,9 +45,11 @@
                     <option value="admin">Admin</option>
                     <option value="member">Member</option>
                 </select>
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                <a href="javascript:history.back()" class="btn btn-secondary mt-3 ">Back</a>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+         
         </form>
     </div>
 @endsection

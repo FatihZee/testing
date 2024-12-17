@@ -37,12 +37,36 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">Password <small>(Leave empty if not changing)</small></label>
-                <input type="password" name="password" id="password" class="form-control">
+                <div class="input-group">
+                    <input type="password" name="password" id="password" class="form-control" aria-describedby="password-eye">
+                    <button type="button" class="btn btn-outline-secondary" id="password-eye" onclick="togglePasswordVisibility()">
+                        <i class="fa fa-eye" id="eye-icon"></i>
+                    </button>
+                    
+                </div>
+                <button type="submit" class="btn btn-primary mt-4 ">Update</button>
+                    <a href="javascript:history.back()" class="btn btn-secondary mt-4">Back</a>
             </div>
 
-
-            <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ session('previous_url', route('users.show', $user->id_user)) }}" class="btn btn-secondary">Cancel</a>             
+            
         </form>
     </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('password');
+            var eyeIcon = document.getElementById('eye-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
 @endsection
+

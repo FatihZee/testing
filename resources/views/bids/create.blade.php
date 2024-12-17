@@ -9,6 +9,7 @@
         $minimumBid = max($highestBid + 1, $auction->product->price + 1);
     @endphp
 
+    <div class="border p-3 rounded">
     <form action="{{ route('bids.store', $auction->id) }}" method="POST">
         @csrf
 
@@ -29,5 +30,6 @@
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Place Bid</button>
+        <a href="{{ route('bids.index', $auction->id) }}" class="btn btn-secondary mt-3">Back</a>
     </form>
 @endsection

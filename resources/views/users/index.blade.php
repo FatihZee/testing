@@ -2,15 +2,15 @@
 
 @section('content')
     <div class="container mt-4">
-        <h1 class="mb-4">Users</h1>
+        <h1 class="mb-4">Users list</h1>
 
         <!-- Button to Create New User -->
         <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create User</a>
 
         <!-- User Table -->
         <div class="table-responsive">
-            <table class="table table-bordered table-striped align-middle">
-                <thead class="table-dark">
+            <table class="table table-bordered ">
+                <thead class="table-primary">
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
@@ -25,7 +25,7 @@
                             <td class="text-center">
                                 <!-- Show Button -->
                                 <a href="{{ route('users.show', $user->id_user) }}" class="btn btn-info btn-sm">
-                                    Show
+                                    View
                                 </a>
 
                                 <!-- Edit Button -->

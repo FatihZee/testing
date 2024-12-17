@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container mt-4">
-        <h1 class="mb-4">Product List</h1>
+        <h1 class="mb-4">Products List</h1>
 
         @if (session('success'))
             <div class="alert alert-success">

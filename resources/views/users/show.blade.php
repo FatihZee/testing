@@ -11,14 +11,10 @@
                 <p><strong>Name:</strong> {{ $user->name }}</p>
                 <p><strong>Email:</strong> {{ $user->email }}</p>
                 <p><strong>Username:</strong> {{ $user->username }}</p>
-                <p><strong>Role:</strong> {{ ucfirst($user->role) }}</p>
                 <a href="{{ route('users.edit', $user->id_user) }}" class="btn btn-primary ms-2">Edit Profile</a>
+                <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
                 <!-- Tambahkan elemen lainnya seperti alamat atau nomor telepon jika ada -->
-            </div>
-            <div class="card-footer text-center">
-                <a href="{{ route('users.index') }}" class="btn btn-secondary">Back to List</a>
-              
-            </div>
+            </div>           
         </div>
     </div>
 @endsection

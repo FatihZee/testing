@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -81,8 +82,8 @@ class UserController extends Controller
         $user = User::findOrFail($id_user);
 
         $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|unique:users,email,' . $id_user . ',id_user',
+            'email' => "sometimes|required|email|unique:users,email,{$id_user},id_user",
+            'username' => "sometimes|required|string|max:255|unique:users,username,{$id_user},id_user",
             'username' => 'sometimes|required|string|max:255|unique:users,username,' . $id_user . ',id_user',
             'password' => 'sometimes|nullable|string|min:8',
             'role' => 'sometimes|required|string',
@@ -99,7 +100,11 @@ class UserController extends Controller
         // Hapus session halaman asal
         session()->forget('previous_url');
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        } else {
+            return redirect()->route('dashboard')->with('success', 'Profile updated successfully.');
+        }
     }
 
     /**

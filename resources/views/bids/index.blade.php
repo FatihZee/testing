@@ -8,6 +8,7 @@
 
     <!-- Tombol untuk Membuat Bid Baru -->
     <a href="{{ route('bids.create', $auction->id) }}" class="btn btn-primary mb-3">Place New Bid</a>
+    <a href="{{ route('auctions.index', $auction->id) }}" class="btn btn-secondary mb-3">Back</a>
 
     @if ($bids->isEmpty())
         <p>No bids yet. Place your first bid now!</p>
