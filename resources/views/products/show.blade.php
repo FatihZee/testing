@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->role === 'admin' ? 'layouts.app' : 'layouts.member')
 
 @section('title', 'Product Details')
 
@@ -8,6 +8,13 @@
 
         <div class="card">
             <div class="card-body">
+                <!-- Display Product Image -->
+                @if ($product->image)
+                    <div class="mb-3 text-center">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="max-width: 100%; height: auto; border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
+                    </div>
+                @endif
+
                 <p><strong>Name:</strong> {{ $product->name }}</p>
                 <p><strong>Description:</strong> {{ $product->description }}</p>
                 <p><strong>Price:</strong> ${{ number_format($product->price, 2) }}</p>

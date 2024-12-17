@@ -1,10 +1,24 @@
-@extends('layouts.app')
+@extends(Auth::user()->role === 'admin' ? 'layouts.app' : 'layouts.member')
 
 @section('content')
-    <h1>User Details</h1>
-    <p>Name: {{ $user->name }}</p>
-    <p>Email: {{ $user->email }}</p>
-    <p>Username: {{ $user->username }}</p>
-    <p>Role: {{ $user->role }}</p>
-    <a href="{{ route('users.index') }}">Back to List</a>
+    <div class="container mt-4">
+        <!-- Card untuk User Details -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light text-black">
+                <h4 class="mb-0">User Details</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ $user->name }}</p>
+                <p><strong>Email:</strong> {{ $user->email }}</p>
+                <p><strong>Username:</strong> {{ $user->username }}</p>
+                <p><strong>Role:</strong> {{ ucfirst($user->role) }}</p>
+                <a href="{{ route('users.edit', $user->id_user) }}" class="btn btn-primary ms-2">Edit Profile</a>
+                <!-- Tambahkan elemen lainnya seperti alamat atau nomor telepon jika ada -->
+            </div>
+            <div class="card-footer text-center">
+                <a href="{{ route('users.index') }}" class="btn btn-secondary">Back to List</a>
+              
+            </div>
+        </div>
+    </div>
 @endsection

@@ -28,8 +28,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Relasi dengan Auction yang dikelola oleh user (sebagai admin).
+     */
     public function managedAuctions()
     {
         return $this->hasMany(Auction::class, 'admin_id');
+    }
+
+    /**
+     * Relasi dengan Bid yang diajukan oleh user (sebagai peserta lelang).
+     */
+    public function bids()
+    {
+        return $this->hasMany(Bid::class, 'user_id');
+    }
+
+    /**
+     * Relasi dengan Auction yang user ikuti (melalui bid).
+     * Menggunakan melalui model Bid.
+     */
+    public function participatedAuctions()
+    {
+        return $this->hasManyThrough(
+            Auction::class, 
+            Bid::class, 
+            'user_id',      // Foreign key di Bid
+            'id',           // Foreign key di Auction
+            'id_user',      // Local key di User
+            'auction_id'    // Local key di Bid
+        );
     }
 }

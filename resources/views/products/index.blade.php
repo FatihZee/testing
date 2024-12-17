@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->role === 'admin' ? 'layouts.app' : 'layouts.member')
 
 @section('title', 'Product List')
 
@@ -20,6 +20,7 @@
                 <thead class="table-primary">
                     <tr>
                         <th>ID</th>
+                        <th>Image</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Price</th>
@@ -31,6 +32,13 @@
                     @foreach ($products as $product)
                         <tr>
                             <td>{{ $product->id }}</td>
+                            <td>
+                                @if ($product->image)
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="width: 100px; height: auto;">
+                                @else
+                                    <p>No Image</p>
+                                @endif
+                            </td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->description }}</td>
                             <td>${{ number_format($product->price, 2) }}</td>

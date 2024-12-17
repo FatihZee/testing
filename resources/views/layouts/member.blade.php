@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard Lelang')</title>
+    <title>@yield('title', 'Member Dashboard')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     @stack('styles')
 </head>
 <body style="font-family: 'Poppins', sans-serif;">
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">LelangApp</a>
@@ -16,16 +17,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"> </li>
-                </ul>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Dropdown Profile -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person"></i> Profile
+                            <i class="bi bi-person-circle"></i> Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('users.edit', Auth::user()->id_user) }}">My Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('users.show', Auth::user()->id_user) }}">My Profile</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
@@ -40,30 +39,28 @@
         </div>
     </nav>
 
+    <!-- Sidebar + Content -->
     <div class="container-fluid">
         <div class="row">
+            <!-- Sidebar -->
             <div class="col-md-2 bg-light vh-100">
-                <div class="d-flex flex-column p-2" style="height: 100%;">
-                    <h5 class="text-center py-3">Sidebar</h5>
+                <div class="d-flex flex-column p-3" style="height: 100%;">
+                    <h5 class="text-center py-3">Member Menu</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2">
                             <a href="{{ route('dashboard') }}" class="nav-link text-dark"><i class="bi bi-house"></i> Dashboard</a>
                         </li>
                         <li class="nav-item mb-2">
-                            <a href="{{ route('products.index') }}" class="nav-link text-dark"> <i class="bi bi-basket3"></i> Products</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a href="{{ route('users.index') }}" class="nav-link text-dark"><i class="bi bi-journal"></i> Daftar User</a>
-                        </li>
-                        <li class="nav-item mb-2">
-                            <a href="#" class="nav-link text-dark" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="bi bi-box-arrow-right"></i> Logout
+                            <a href="{{ route('auctions.index') }}" class="nav-link text-dark">
+                                <i class="bi bi-bag-fill"></i> Products
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="col-md-9">
+
+            <!-- Main Content -->
+            <div class="col-md-10">
                 <div class="container mt-4">
                     @yield('content')
                 </div>
@@ -71,6 +68,7 @@
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>

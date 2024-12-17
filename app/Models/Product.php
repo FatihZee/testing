@@ -16,7 +16,8 @@ class Product extends Model
         'description',
         'price',
         'stock',
-    ];
+        'image', // Tambahkan kolom gambar
+    ];    
 
     protected $casts = [
         'price' => 'decimal:2',

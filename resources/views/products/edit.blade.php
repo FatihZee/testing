@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->role === 'admin' ? 'layouts.app' : 'layouts.member')
 
 @section('title', 'Edit Product')
 
@@ -17,7 +17,7 @@
             </div>
         @endif
 
-        <form action="{{ route('products.update', $product->id) }}" method="POST">
+        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -39,6 +39,17 @@
             <div class="mb-3">
                 <label for="stock" class="form-label">Stock:</label>
                 <input type="number" name="stock" id="stock" value="{{ old('stock', $product->stock) }}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image:</label>
+                <!-- Display current image -->
+                @if ($product->image)
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" style="width: 150px; height: auto;">
+                    </div>
+                @endif
+                <input type="file" name="image" id="image" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary">Update Product</button>

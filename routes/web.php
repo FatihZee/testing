@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BidController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctionController;
@@ -24,6 +25,7 @@ Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edi
 Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 
+
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
@@ -42,6 +44,18 @@ Route::get('/auctions/{auction}/edit', [AuctionController::class, 'edit'])->name
 Route::put('/auctions/{auction}', [AuctionController::class, 'update'])->name('auctions.update');
 Route::delete('/auctions/{auction}', [AuctionController::class, 'destroy'])->name('auctions.destroy');
 
+Route::middleware('auth')->group(function () {
+    Route::prefix('auctions/{auction}/bids')->group(function () {
+        Route::get('/', [BidController::class, 'index'])->name('bids.index');
+        Route::get('/create', [BidController::class, 'create'])->name('bids.create');
+        Route::post('/', [BidController::class, 'store'])->name('bids.store');
+        Route::get('/{bid}', [BidController::class, 'show'])->name('bids.show');
+        Route::get('/{bid}/edit', [BidController::class, 'edit'])->name('bids.edit');
+        Route::put('/{bid}', [BidController::class, 'update'])->name('bids.update');
+        Route::delete('/{bid}', [BidController::class, 'destroy'])->name('bids.destroy');
+        
+    });
+});
 
 //dashboard
 Route::get('dashboard', function () {

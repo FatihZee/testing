@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends(Auth::user()->role === 'admin' ? 'layouts.app' : 'layouts.member')
 
 @section('title', 'Add New Product')
 
@@ -18,7 +18,7 @@
         @endif
 
         <!-- Product Form -->
-        <form action="{{ route('products.store') }}" method="POST">
+        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-3">
@@ -39,6 +39,11 @@
             <div class="mb-3">
                 <label for="stock" class="form-label">Stock:</label>
                 <input type="number" name="stock" id="stock" value="{{ old('stock') }}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Product Image:</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*">
             </div>
 
             <button type="submit" class="btn btn-primary">Add Product</button>

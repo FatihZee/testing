@@ -38,7 +38,7 @@ class UserController extends Controller
             'role' => 'required|string',
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'username' => $request->username,
@@ -52,33 +52,39 @@ class UserController extends Controller
     /**
      * Display the specified user.
      */
-    public function show($id)
+    public function show($id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
         return view('users.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified user.
      */
-    public function edit($id)
+    public function edit($id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
+
+        // Simpan URL sebelumnya ke session jika belum ada
+        if (!session()->has('previous_url')) {
+            session(['previous_url' => url()->previous()]);
+        }
+
         return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified user in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
 
         $request->validate([
             'name' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|email|unique:users,email,' . $user->id_user,
-            'username' => 'sometimes|required|string|max:255|unique:users,username,' . $user->id_user,
-            'password' => 'sometimes|required|string|min:8',
+            'email' => 'sometimes|required|email|unique:users,email,' . $id_user . ',id_user',
+            'username' => 'sometimes|required|string|max:255|unique:users,username,' . $id_user . ',id_user',
+            'password' => 'sometimes|nullable|string|min:8',
             'role' => 'sometimes|required|string',
         ]);
 
@@ -90,15 +96,18 @@ class UserController extends Controller
             'role' => $request->role ?? $user->role,
         ]);
 
+        // Hapus session halaman asal
+        session()->forget('previous_url');
+
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     /**
      * Remove the specified user from storage.
      */
-    public function destroy($id)
+    public function destroy($id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
         $user->delete();
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
