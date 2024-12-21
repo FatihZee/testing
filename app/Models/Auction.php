@@ -32,4 +32,9 @@ class Auction extends Model
     {
         return $this->hasMany(Bid::class);
     }
+
+    public function winner()
+    {
+        return $this->belongsTo(User::class, 'winner_id'); // Pastikan 'winner_id' digunakan sebagai foreign key
+    }
 }

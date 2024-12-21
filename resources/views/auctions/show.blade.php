@@ -1,4 +1,5 @@
 @extends(Auth::user()->role === 'admin' ? 'layouts.app' : 'layouts.member')
+
 @section('content')
     <h1>Auction Details</h1>
 
@@ -24,4 +25,19 @@
         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
     </form>
     <a href="{{ route('auctions.index') }}" class="btn btn-secondary btn-sm">Back to List</a>
+
+    <!-- Admin selects winner if auction is closed and no winner selected -->
+    @if (auth()->user()->role === 'admin')
+        @if ($auction->status === 'closed' && !$auction->winner_id)
+            <form action="{{ route('auctions.selectWinner', $auction->id) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-success btn-sm mt-3">Select Winner</button>
+            </form>
+        @elseif ($auction->winner_id)
+            <div class="mt-3">
+                <h4>Winner: {{ $auction->winner->name }}</h4>
+                <p>Bid Price: {{ $auction->bids->where('user_id', $auction->winner_id)->first()->bid_price }}</p>
+            </div>
+        @endif
+    @endif
 @endsection

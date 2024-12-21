@@ -44,6 +44,7 @@ Route::get('/auctions/{auction}', [AuctionController::class, 'show'])->name('auc
 Route::get('/auctions/{auction}/edit', [AuctionController::class, 'edit'])->name('auctions.edit');
 Route::put('/auctions/{auction}', [AuctionController::class, 'update'])->name('auctions.update');
 Route::delete('/auctions/{auction}', [AuctionController::class, 'destroy'])->name('auctions.destroy');
+Route::post('auctions/{auction}/select-winner', [AuctionController::class, 'selectWinner'])->name('auctions.selectWinner');
 
 Route::middleware('auth')->group(function () {
     Route::prefix('auctions/{auction}/bids')->group(function () {

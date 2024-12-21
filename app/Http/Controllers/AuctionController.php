@@ -12,7 +12,7 @@ class AuctionController extends Controller
 {
     public function index()
     {
-        $auctions = Auction::with('product', 'admin')->get();
+        $auctions = Auction::with('product', 'admin', 'winner')->get();
         return view('auctions.index', compact('auctions'));
     }
 
@@ -72,5 +72,32 @@ class AuctionController extends Controller
     {
         $auction->delete();
         return redirect()->route('auctions.index')->with('success', 'Auction deleted successfully!');
+    }
+
+    public function selectWinner($auctionId)
+    {
+        $auction = Auction::with('bids')->findOrFail($auctionId);
+
+        // Pastikan lelang dalam status 'closed'
+        if ($auction->status != 'closed') {
+            return redirect()->route('auctions.index')->with('error', 'Auction must be closed to select a winner.');
+        }
+
+        // Cari bid tertinggi
+        $winningBid = $auction->bids->sortByDesc('bid_price')->first();
+
+        if ($winningBid) {
+            // Tentukan pemenang berdasarkan bid tertinggi
+            $auction->winner_id = $winningBid->user_id;
+            $auction->save();
+
+            // Mengubah status lelang menjadi selesai
+            $auction->status = 'completed';
+            $auction->save();
+
+            return redirect()->route('auctions.index')->with('success', 'Winner selected successfully!');
+        }
+
+        return redirect()->route('auctions.index')->with('error', 'No bids placed in this auction.');
     }
 }
