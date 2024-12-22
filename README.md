@@ -1,4 +1,4 @@
-echo "# README: Website Lelang
+# README: Website Lelang
 
 ## Overview
 Selamat datang di repository **Website Lelang**, sebuah platform berbasis web yang dirancang untuk memfasilitasi proses lelang secara daring. Website ini menawarkan pengalaman lelang yang mudah, transparan, dan aman bagi pengguna. Proyek ini dibuat sebagai tugas besar dalam mata kuliah **Web Application Development (WAD)** oleh kelompok:
