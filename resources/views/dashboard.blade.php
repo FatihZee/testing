@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container mt-4">
-        <img src="{{ asset('midwest.png') }}" class="img-fluid" alt="Dashboard Image">
+        <img src="{{ asset('dashboard.jpg') }}" class="img-fluid" alt="Dashboard Image">
     </div>
 @endsection

@@ -59,6 +59,10 @@
                         <li class="nav-item mb-2">
                             <a href="{{ route('users.index') }}" class="nav-link text-dark"><i class="bi bi-journal"></i> Daftar User</a>
                         </li>
+                        <!-- Tambahan Menu Transactions -->
+                        <li class="nav-item mb-2">
+                            <a href="{{ route('transactions.index') }}" class="nav-link text-dark"><i class="bi bi-currency-exchange"></i> Transactions</a>
+                        </li>
                     </ul>
                 </div>
             </div>

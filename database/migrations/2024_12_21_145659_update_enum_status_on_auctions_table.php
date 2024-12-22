@@ -7,25 +7,21 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateEnumStatusOnAuctionsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        // Mengubah ENUM pada kolom 'status'
+        DB::table('auctions')
+            ->whereNotIn('status', ['open', 'closed', 'completed', 'pending'])
+            ->update(['status' => 'pending']);
+
         DB::statement("ALTER TABLE auctions MODIFY COLUMN status ENUM('open', 'closed', 'completed', 'pending') NOT NULL");
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        // Jika rollback, kembalikan status ke ENUM semula
+        DB::table('auctions')
+            ->whereNotIn('status', ['open', 'closed'])
+            ->update(['status' => 'open']);
+
         DB::statement("ALTER TABLE auctions MODIFY COLUMN status ENUM('open', 'closed') NOT NULL");
     }
 }

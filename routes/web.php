@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\TransactionController;
 
 
 Route::get('/', function () {
@@ -35,8 +37,6 @@ Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('pro
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
 Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-//route auction with auth middleware
-
 Route::get('/auctions', [AuctionController::class, 'index'])->name('auctions.index');
 Route::get('/auctions/create', [AuctionController::class, 'create'])->name('auctions.create');
 Route::post('/auctions', [AuctionController::class, 'store'])->name('auctions.store');
@@ -59,7 +59,24 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-//dashboard
+Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+Route::get('/transactions/create', [TransactionController::class, 'create'])->name('transactions.create');
+Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+Route::get('/transactions/{id}', [TransactionController::class, 'show'])->name('transactions.show');
+Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
+Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+Route::prefix('feedbacks')->group(function () {
+    Route::get('/', [FeedbackController::class, 'index'])->name('feedbacks.index');
+    Route::get('create', [FeedbackController::class, 'create'])->name('feedbacks.create');
+    Route::post('store', [FeedbackController::class, 'store'])->name('feedbacks.store');
+    Route::get('{id}/edit', [FeedbackController::class, 'edit'])->name('feedbacks.edit');
+    Route::put('{id}', [FeedbackController::class, 'update'])->name('feedbacks.update');
+    Route::delete('{id}', [FeedbackController::class, 'destroy'])->name('feedbacks.destroy');
+    Route::get('{id}', [FeedbackController::class, 'show'])->name('feedbacks.show');
+});
+
 Route::get('dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');

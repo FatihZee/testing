@@ -63,7 +63,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                                     </form>
-
+                            
                                     <!-- Button for Admin to Select Winner -->
                                     @if ($auction->status === 'closed' && !$auction->winner_id)
                                         <form action="{{ route('auctions.selectWinner', $auction) }}" method="POST" style="display:inline;">
@@ -76,9 +76,27 @@
                                     @if (!$auction->winner_id && $auction->status === 'open')
                                         <!-- Bid Now button shown only if no winner yet and auction is open -->
                                         <a href="{{ route('bids.index', $auction) }}" class="btn btn-primary btn-sm">Bid Now</a>
-                                    @elseif ($auction->winner_id && $auction->winner_id == auth()->id())
+                                        @elseif ($auction->winner_id && $auction->winner_id == auth()->id())
                                         <!-- Display a message if member is the winner -->
                                         <span class="badge bg-success">You won this auction!</span>
+                                        <!-- Cek apakah sudah ada transaksi melalui bid -->
+                                        @php
+                                            $winningBid = $auction->bids->where('user_id', auth()->id())->first();
+                                            $transaction = $winningBid ? $winningBid->transaction : null;
+                                        @endphp
+                                    
+                                        @if(!$transaction)
+                                            <!-- Tampilkan tombol Bayar Sekarang hanya jika belum ada transaksi -->
+                                            <a href="{{ route('transactions.create') }}" class="btn btn-success btn-sm">Bayar Sekarang</a>
+                                        @else
+                                            @if($transaction->status === 'confirmed')
+                                                <!-- Tampilkan tombol Berikan Feedback hanya jika pembayaran sudah confirmed -->
+                                                <a href="{{ route('feedbacks.create', $transaction->id) }}" class="btn btn-primary btn-sm">Berikan Feedback</a>
+                                            @else
+                                                <!-- Tampilkan status pembayaran jika belum confirmed -->
+                                                <span class="badge bg-info">Payment {{ ucfirst($transaction->status) }}</span>
+                                            @endif
+                                        @endif
                                     @elseif ($auction->winner_id)
                                         <!-- Display message if member is not the winner -->
                                         <span class="badge bg-danger">You lost this auction</span>

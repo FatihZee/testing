@@ -2,7 +2,6 @@
 
 @section('content')
  
-   
     <h1>Bid Details</h1>
     <div class="card">
         <div class="card-body">

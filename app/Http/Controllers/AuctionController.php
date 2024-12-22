@@ -1,6 +1,5 @@
 <?php
 
-// App\Http\Controllers\AuctionController.php
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -18,24 +17,22 @@ class AuctionController extends Controller
 
     public function create()
     {
-        $products = Product::all(); // Ambil semua produk
-        $admins = User::where('role', 'admin')->get(); // Ambil semua pengguna dengan peran admin
-        return view('auctions.create', compact('products', 'admins')); // Kirim data produk dan admin ke tampilan
+        $products = Product::all();
+        $admins = User::where('role', 'admin')->get();
+        return view('auctions.create', compact('products', 'admins'));
     }
 
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'admin_id' => 'required|exists:users,id_user',
             'status' => 'required|in:open,closed',
         ]);
 
-        // Simpan data lelang
         Auction::create([
-            'product_id' => $request->product_id, // Hanya simpan product_id
-            'admin_id' => $request->admin_id,     // Ambil admin_id dari input
+            'product_id' => $request->product_id,
+            'admin_id' => $request->admin_id,
             'status' => $request->status,
         ]);
 
@@ -61,7 +58,7 @@ class AuctionController extends Controller
         ]);
 
         $auction->update([
-            'product_id' => $request->product_id, // Hanya update product_id
+            'product_id' => $request->product_id,
             'status' => $request->status,
         ]);
 
@@ -78,20 +75,16 @@ class AuctionController extends Controller
     {
         $auction = Auction::with('bids')->findOrFail($auctionId);
 
-        // Pastikan lelang dalam status 'closed'
         if ($auction->status != 'closed') {
             return redirect()->route('auctions.index')->with('error', 'Auction must be closed to select a winner.');
         }
 
-        // Cari bid tertinggi
         $winningBid = $auction->bids->sortByDesc('bid_price')->first();
 
         if ($winningBid) {
-            // Tentukan pemenang berdasarkan bid tertinggi
             $auction->winner_id = $winningBid->user_id;
             $auction->save();
 
-            // Mengubah status lelang menjadi selesai
             $auction->status = 'completed';
             $auction->save();
 

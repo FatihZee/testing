@@ -9,26 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the users.
-     */
     public function index()
     {
         $users = User::all();
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new user.
-     */
     public function create()
     {
         return view('users.create');
     }
 
-    /**
-     * Store a newly created user in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -50,23 +41,16 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
-    /**
-     * Display the specified user.
-     */
     public function show($id_user)
     {
         $user = User::findOrFail($id_user);
         return view('users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified user.
-     */
     public function edit($id_user)
     {
         $user = User::findOrFail($id_user);
 
-        // Simpan URL sebelumnya ke session jika belum ada
         if (!session()->has('previous_url')) {
             session(['previous_url' => url()->previous()]);
         }
@@ -74,9 +58,6 @@ class UserController extends Controller
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified user in storage.
-     */
     public function update(Request $request, $id_user)
     {
         $user = User::findOrFail($id_user);
@@ -97,7 +78,6 @@ class UserController extends Controller
             'role' => $request->role ?? $user->role,
         ]);
 
-        // Hapus session halaman asal
         session()->forget('previous_url');
 
         if (Auth::user()->role === 'admin') {
@@ -107,9 +87,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Remove the specified user from storage.
-     */
     public function destroy($id_user)
     {
         $user = User::findOrFail($id_user);

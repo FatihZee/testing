@@ -5,21 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bid extends Model
+class Feedback extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'auction_id',
-        'user_id',
-        'bid_price',
-        'bid_time',
-    ];
+    protected $table = 'feedbacks';
 
-    public function auction()
-    {
-        return $this->belongsTo(Auction::class);
-    }
+    protected $fillable = [
+        'user_id',
+        'transaction_id',
+        'feedback',
+    ];
 
     public function user()
     {
@@ -28,6 +24,6 @@ class Bid extends Model
 
     public function transaction()
     {
-        return $this->hasOne(Transaction::class);
+        return $this->belongsTo(Transaction::class);
     }
 }

@@ -41,13 +41,11 @@
 
 @section('scripts')
     <script>
-        // Function to Update Product Image based on selected option in the dropdown
         function updateProductImage() {
             const selectedOption = document.querySelector('#product_id option:checked');
             const productImage = document.querySelector('#product-image');
             const imageUrl = selectedOption.getAttribute('data-image');
-            
-            // Set new image source based on selection
+
             productImage.src = imageUrl ? imageUrl : '';
             productImage.alt = selectedOption.textContent || 'No Image';
         }

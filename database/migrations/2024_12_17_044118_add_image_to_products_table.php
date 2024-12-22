@@ -6,19 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 class AddImageToProductsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('image')->nullable()->after('stock'); // Tambahkan kolom gambar
+            $table->string('image')->nullable()->after('stock');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {

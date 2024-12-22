@@ -10,28 +10,23 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    // Menampilkan form login
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
-    // Menampilkan form registrasi
     public function showRegisterForm()
     {
         return view('auth.register');
     }
 
-    // Proses login
     public function login(Request $request)
     {
-        // Validasi input
         $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:6',
         ]);
 
-        // Cek kredensial pengguna
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('dashboard');
         } else {
@@ -39,10 +34,8 @@ class AuthController extends Controller
         }
     }
 
-    // Proses registrasi
 public function register(Request $request)
-    {
-        // Validasi input   
+    { 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -50,10 +43,9 @@ public function register(Request $request)
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        // Mengenkripsi password
+
         $hashedPassword = Hash::make($request->password);
 
-        // Buat pengguna baru
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -62,13 +54,11 @@ public function register(Request $request)
             'role' => 'member',
         ]);
 
-        // Login setelah registrasi
         Auth::attempt(['email' => $request->email, 'password' => $request->password]);
 
         return redirect()->route('dashboard');
     }
 
-    // Logout
     public function logout()
     {
         Auth::logout();

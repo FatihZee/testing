@@ -4,7 +4,6 @@
     <h1>Place Bid</h1>
 
     @php
-        // Ambil bid tertinggi untuk auction ini
         $highestBid = $auction->bids()->max('bid_price');
         $minimumBid = max($highestBid + 1, $auction->product->price + 1);
     @endphp

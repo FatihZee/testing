@@ -26,13 +26,13 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi file gambar
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public'); // Simpan file
+            $data['image'] = $request->file('image')->store('products', 'public');
         }
 
         Product::create($data);
@@ -53,31 +53,30 @@ class ProductController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $product = Product::findOrFail($id);
+    {
+        $product = Product::findOrFail($id);
 
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'price' => 'required|numeric',
-        'stock' => 'required|integer',
-        'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi file gambar
-    ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
 
-    $data = $request->all();
+        $data = $request->all();
 
-    if ($request->hasFile('image')) {
-        // Hapus gambar lama jika ada
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+        if ($request->hasFile('image')) {
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+            $data['image'] = $request->file('image')->store('products', 'public');
         }
-        $data['image'] = $request->file('image')->store('products', 'public'); // Simpan file baru
+
+        $product->update($data);
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
-
-    $product->update($data);
-
-    return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-}
 
     public function destroy($id)
     {

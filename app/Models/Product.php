@@ -16,7 +16,7 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'image', // Tambahkan kolom gambar
+        'image',
     ];    
 
     protected $casts = [

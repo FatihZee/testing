@@ -13,7 +13,6 @@
                 <p><strong>Username:</strong> {{ $user->username }}</p>
                 <a href="{{ route('users.edit', $user->id_user) }}" class="btn btn-primary ms-2">Edit Profile</a>
                 <a href="javascript:history.back()" class="btn btn-secondary">Back</a>
-                <!-- Tambahkan elemen lainnya seperti alamat atau nomor telepon jika ada -->
             </div>           
         </div>
     </div>
